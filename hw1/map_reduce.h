@@ -38,6 +38,7 @@ typedef struct Stats {
  */
 int validateargs(int argc, char** argv);
 
+
 /**
  * Counts the number of files in a directory EXCLUDING . and ..
  * @param  dir The directory for which number of files is desired.
@@ -163,5 +164,5 @@ int analysis(FILE* f, void* res, char* filename);
  */
 int stats(FILE* f, void* res, char* filename);
 
-void print_help();
+void print_help_menu();
 #endif

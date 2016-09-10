@@ -4,3 +4,15 @@
 # Look at the introduction doc for information on how make a Makefile.
 # This make file must build according to the structure described in the
 # introduction doc, if it doesn't you will get a ZERO!
+CFLAGS = -Wall -Werror -g
+BINS = hwtest
+
+all: $(BINS)
+
+hwtest:
+	gcc $(CFLAGS) hwtest.c -o $@
+
+clean:
+	rm -f $(BINS)
+
+
