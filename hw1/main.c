@@ -19,20 +19,47 @@ int cat(FILE* f, void* res, char* filename) {
 }
 
 int main(int argc, char** argv) {
-    printf("Welcome to CSE 320!\n");
-    return EXIT_SUCCESS;
+    int n = validateargs(argc, argv);
+    if(n == INVALID)
+        print_help_menu();
+    if(n == HELP)
+        print_help_menu();
+    if(n == ANA) {
+        if(nfiles(argv[2]) != 0) {
+            printf("Number of files in %s: %d\n",argv[2], nfiles(argv[2]));
+            printf("%s\n", argv[2]);
+            map(argv[2], analysis_space, 1, &cat);
+        }
+        else{
+            printf("No files present in the directory.");
+            return EXIT_SUCCESS;
+        }
+    }
+    if(n == STATS) {
+        if(nfiles(argv[2]) != 0)
+            printf("Number of files in %s: %d\n",argv[2], nfiles(argv[2]));
+        else{
+            printf("No files present in the directory.");
+            return EXIT_SUCCESS;
+        }
+    }
+    if(n == ANA_V){
+        if(nfiles(argv[2]) != 0)
+            printf("Number of files in %s: %d\n",argv[2], nfiles(argv[2]));
+        else{
+            printf("No files present in the directory.");
+            return EXIT_SUCCESS;
+        }
+    }
+    if(n == STATS_V) {
+        if(nfiles(argv[2]) != 0)
+            printf("Number of files in %s: %d\n",argv[2], nfiles(argv[2]));
+        else{
+            printf("No files present in the directory.");
+            return EXIT_SUCCESS;
+        }
+    }
+    return 0;
 }
 
-/**
-* Validates the command line arguments passed in by the user.
-* @param argc The number of arguments.
-* @param argv The arguments.
-* @return Returns -1 if arguments are invalid (refer to hw document).
-* Returns 0 if -h optional flag is selected. Returns 1 if analysis
-* is chosen. Returns 2 if stats is chosen. If the -v optional flag
-* has been selected, validateargs returns 3 if analysis
-* is chosen and 4 if stats is chosen.
-*/
-int validateargs(int argc, char** argv) {
-    if(argv[1] == "-h")
-}
+

@@ -4,15 +4,39 @@
 # Look at the introduction doc for information on how make a Makefile.
 # This make file must build according to the structure described in the
 # introduction doc, if it doesn't you will get a ZERO!
-CFLAGS = -Wall -Werror -g
-BINS = hwtest
 
-all: $(BINS)
+CC = gcc
+CFLAGS = -Wall -Werror -g -Iinclude
+BINS = bin/mapreduce
+BINDIR = bin/
+BUILDDIR = build/
 
-hwtest:
-	gcc $(CFLAGS) hwtest.c -o $@
+
+all: $(BUILDDIR)  $(BINDIR) $(BINS)
+
+$(BINS): $(BUILDDIR)main.o $(BUILDDIR)map_reduce.o
+	gcc $(CFLAGS) $^ -o $@
+
+$(BUILDDIR)main.o: main.c
+	gcc $(CFLAGS) -c $^ -o $@
+
+$(BUILDDIR)map_reduce.o: map_reduce.c
+	gcc $(CFLAGS) -c $^ -o $@
+
+$(BUILDDIR):
+	@mkdir -p $@
+
+$(BINDIR):
+	@mkdir -p $@
+
+.PHONY: clean
 
 clean:
-	rm -f $(BINS)
+	rm -rf $(BUILDDIR) $(BINDIR)
+
+
+
+
+
 
 
