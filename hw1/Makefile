@@ -17,10 +17,10 @@ all: $(BUILDDIR)  $(BINDIR) $(BINS)
 $(BINS): $(BUILDDIR)main.o $(BUILDDIR)map_reduce.o
 	gcc $(CFLAGS) $^ -o $@
 
-$(BUILDDIR)main.o: main.c
+$(BUILDDIR)main.o: src/main.c
 	gcc $(CFLAGS) -c $^ -o $@
 
-$(BUILDDIR)map_reduce.o: map_reduce.c
+$(BUILDDIR)map_reduce.o: src/map_reduce.c
 	gcc $(CFLAGS) -c $^ -o $@
 
 $(BUILDDIR):

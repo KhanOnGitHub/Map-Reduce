@@ -7,32 +7,84 @@ Stats stats_space[NFILES];
 
 //Sample Map function action: Print file contents to stdout and returns the number bytes in the file.
 int cat(FILE* f, void* res, char* filename) {
-    char c;
-    int n = 0;
-    printf("%s\n", filename);
-    while((c = fgetc(f)) != EOF) {
-        printf("%c", c);
-        n++;
-    }
-    printf("\n");
-    return n;
+	char c;
+	int n = 0;
+	printf("%s\n", filename);
+	while((c = fgetc(f)) != EOF) {
+		printf("%c", c);
+		n++;
+	}
+	printf("\n");
+	return n;
 }
 
 int main(int argc, char** argv) {
-    printf("Welcome to CSE 320!\n");
-    return EXIT_SUCCESS;
-}
+	int n = validateargs(argc, argv);
+	int sum = 0;
+	if(n == INVALID)
+		print_help_menu();
+	if(n == HELP)
+		print_help_menu();
+	if(n == ANA) {
+		if(nfiles(argv[2]) != 0) {
+			sum = map(argv[2], analysis_space, sizeof(analysis_space[0]), &analysis);
+			if(sum != -1)
+				analysis_print(analysis_reduce(nfiles(argv[2]), analysis_space), sum, 1);
+		}
+		else{
+			printf("No files present in the directory.");
+			return EXIT_SUCCESS;
+		}
+	}
+	if(n == STATS) {
+		if(nfiles(argv[2]) != 0) {
+			map(argv[2], stats_space, sizeof(stats_space[0]), &stats);
+			stats_print(stats_reduce(nfiles(argv[2]), stats_space), 1);
+		}
+		else{
+			printf("No files present in the directory.");
+			return EXIT_SUCCESS;
+		}
+	}
+	if(n == ANA_V){
+		if(nfiles(argv[3]) != 0) {
+			sum = map(argv[3], analysis_space, sizeof(analysis_space[0]), &analysis);
+			if(sum != -1) {
+				for(int i = 0; i < nfiles(argv[3]); i ++) {
+					if(i != nfiles(argv[3]) -1)
+						analysis_print(analysis_space[i], sum, 0);
+					else {
+						analysis_print(analysis_space[i], sum, 0);
+						analysis_print(analysis_reduce(nfiles(argv[3]), analysis_space), sum, 1);
+					}
 
-/**
-* Validates the command line arguments passed in by the user.
-* @param argc The number of arguments.
-* @param argv The arguments.
-* @return Returns -1 if arguments are invalid (refer to hw document).
-* Returns 0 if -h optional flag is selected. Returns 1 if analysis
-* is chosen. Returns 2 if stats is chosen. If the -v optional flag
-* has been selected, validateargs returns 3 if analysis
-* is chosen and 4 if stats is chosen.
-*/
-int validateargs(int argc, char** argv) {
-    if(argv[1] == "-h")
-}
+				}
+			}
+		}
+		else{
+			printf("No files present in the directory.");
+			return EXIT_SUCCESS;
+		}
+	}
+	if(n == STATS_V) {
+			if(nfiles(argv[3]) != 0) {
+				sum = map(argv[3], analysis_space, sizeof(analysis_space[0]), &analysis);
+				if(sum != -1) {
+					for(int i = 0; i < nfiles(argv[3]); i ++) {
+						if(i != nfiles(argv[3]) -1)
+							stats_print(stats_space[i], 0);
+						else {
+							stats_print(stats_reduce(nfiles(argv[3]), stats_space), 1);
+						}
+					}
+				}
+			}
+			else {
+				printf("No files present in the directory.");
+				return EXIT_SUCCESS;
+			}
+		}
+		return 0;
+	}
+
+
