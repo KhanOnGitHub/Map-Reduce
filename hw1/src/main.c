@@ -21,8 +21,10 @@ int cat(FILE* f, void* res, char* filename) {
 int main(int argc, char** argv) {
 	int n = validateargs(argc, argv);
 	int sum = 0;
-	if(n == INVALID)
+	if(n == INVALID) {
 		print_help_menu();
+		return EXIT_FAILURE;
+	}
 	if(n == HELP)
 		print_help_menu();
 	if(n == ANA) {
@@ -84,7 +86,7 @@ int main(int argc, char** argv) {
 				return EXIT_SUCCESS;
 			}
 		}
-		return 0;
+		return EXIT_SUCCESS;
 	}
 
 
